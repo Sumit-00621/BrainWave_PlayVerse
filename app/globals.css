@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark, "premium gaming HUD" is the only mode PlayVerse ships for now. */
+    --background: 250 45% 4%;
+    --foreground: 240 20% 96%;
+
+    --card: 250 35% 8%;
+    --card-foreground: 240 20% 96%;
+
+    --muted: 250 20% 14%;
+    --muted-foreground: 240 10% 65%;
+
+    --border: 250 30% 20%;
+    --input: 250 30% 18%;
+    --ring: 265 100% 70%;
+
+    --radius: 1rem;
+
+    --font-display: "Space Grotesk", sans-serif;
+    --font-body: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    background-image: radial-gradient(
+        circle at 15% 0%,
+        rgba(151, 71, 255, 0.14),
+        transparent 40%
+      ),
+      radial-gradient(circle at 85% 20%, rgba(34, 211, 238, 0.1), transparent 45%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgba(151, 71, 255, 0.35);
+    color: #fff;
+  }
+
+  /* Slim neon scrollbar to match the HUD aesthetic */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #9747ff, #22d3ee);
+    border-radius: 999px;
+  }
+}
+
+@layer components {
+  /* Core glass panel used by cards, nav, modals */
+  .glass-panel {
+    @apply relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl;
+  }
+
+  .glass-panel::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0 rounded-2xl;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0) 40%
+    );
+  }
+
+  /* Animated gradient border for CTA-level elements (search bar, primary buttons) */
+  .glow-border {
+    position: relative;
+    background: linear-gradient(90deg, #9747ff, #22d3ee, #f2318c, #9747ff);
+    background-size: 200% 100%;
+    animation: border-flow 4s linear infinite;
+  }
+
+  .glow-border > .glow-border-inner {
+    @apply rounded-[inherit] bg-void-900;
+  }
+
+  .text-gradient-nova {
+    @apply bg-gradient-to-r from-nova-400 via-nova-500 to-circuit-500 bg-clip-text text-transparent;
+  }
+
+  .neon-ring {
+    box-shadow:
+      0 0 0 1px rgba(151, 71, 255, 0.4),
+      0 0 20px rgba(151, 71, 255, 0.25);
+  }
+}
