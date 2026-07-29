@@ -65,12 +65,42 @@ Per the plan, these come in later steps, one at a time:
 - Favorites & Search History (localStorage hooks)
 - Firebase Auth (optional)
 
-## 5. Testing this step
+## 5. Vercel Deployment
 
-1. `npm run dev`, confirm the homepage loads with no console errors.
-2. Resize the browser down to mobile width — nav should collapse into the hamburger menu.
-3. Click an example prompt chip under the search bar — it should fill the input.
-4. Submit the search bar — you'll see a ~1.2s loading spinner (this is a stub; real search comes next).
-5. Click through the FAQ accordion and hover the trending game cards.
+PlayVerse AI is optimized for 1-click zero-config deployment on [Vercel](https://vercel.com).
 
-Let me know how it runs and we'll move on to the **AI Search** feature (wiring Gemini into `AISearchBar`) next.
+### Option A: Deploy via Vercel Dashboard (Recommended)
+
+1. Push your repository to GitHub, GitLab, or Bitbucket.
+2. Go to [Vercel Dashboard](https://vercel.com/new) and import your repository.
+3. In **Environment Variables**, add the following keys from your `.env.example`:
+   - `NEXT_PUBLIC_GEMINI_API_KEY`: Your Google AI Studio API Key.
+   - `NEXT_PUBLIC_RAWG_API_KEY`: Your RAWG.io API Key.
+   - *(Optional)* Firebase keys (`NEXT_PUBLIC_FIREBASE_API_KEY`, etc.).
+4. Click **Deploy**. Vercel will automatically run `npm run build` and publish your live app.
+
+### Option B: Deploy via Vercel CLI
+
+```bash
+# 1. Install Vercel CLI globally
+npm i -g vercel
+
+# 2. Deploy to preview environment
+vercel
+
+# 3. Deploy to production environment
+vercel --prod
+```
+
+When prompted by Vercel CLI, add the environment variables specified in `.env.example`.
+
+## 6. Testing local production build
+
+```bash
+# Build the production bundle
+npm run build
+
+# Start the production server locally
+npm run start
+```
+
