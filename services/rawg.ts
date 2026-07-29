@@ -2,8 +2,19 @@ import { Game } from "@/types/game";
 
 const RAWG_API_KEY = process.env.NEXT_PUBLIC_RAWG_API_KEY;
 
+function isRealApiKey(key?: string): boolean {
+  if (!key || !key.trim()) return false;
+  const lower = key.trim().toLowerCase();
+  return (
+    !lower.includes("your_") &&
+    !lower.includes("placeholder") &&
+    !lower.includes("xxx") &&
+    key.trim().length > 10
+  );
+}
+
 export async function fetchRawgGameDetails(query: string): Promise<Partial<Game> | null> {
-  if (!RAWG_API_KEY || RAWG_API_KEY.trim() === "") {
+  if (!isRealApiKey(RAWG_API_KEY)) {
     return null;
   }
 
@@ -35,7 +46,7 @@ export async function fetchRawgGameDetails(query: string): Promise<Partial<Game>
 }
 
 export async function enrichGamesWithRAWG(games: Game[]): Promise<Game[]> {
-  if (!RAWG_API_KEY) return games;
+  if (!isRealApiKey(RAWG_API_KEY)) return games;
 
   const enriched = await Promise.all(
     games.map(async (game) => {
